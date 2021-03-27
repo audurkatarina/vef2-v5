@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { NotFound } from '../../pages/NotFound';
 import { News } from '../news/News';
+import s from './NewsList.module.scss';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -19,10 +19,8 @@ export function NewsList() {
       try {
         const result = await fetch(apiUrl);
 
-        if (!result.ok) {
-          return(
-            <NotFound></NotFound>
-          );
+        if (result.status === 500) {
+          setError('500: Internal server error')
         }
         json = await result.json();
       } catch (e) {
@@ -51,15 +49,15 @@ export function NewsList() {
   const news = (data) || [];
 
   return(
-    <div>
+    <div className={s.categories}>
       {news.length === 0 && (
-          <li>Engar fréttir</li>
+          <p>Engar fréttir komnar</p>
       )}
       {news.length > 0 && news.map((n, key) => {
           return (
-            <div key={key}>
-              <News id={n.id} index={true}></News>
-              <p><Link to={`/${n.id}`}>Allar fréttir</Link></p>
+            <div key={key} className={s.category}>
+              <News id={n.id} index={5}></News>
+              <p><Link to={`/${n.id}`} className={s.link}>Allar fréttir</Link></p>
             </div>
           )
       })}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NotFound } from '../../pages/NotFound';
+import s from './News.module.scss';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -17,8 +18,9 @@ export function News({ id, index }) {
       const url = `${apiUrl}${id}`;
       try {
         const result = await fetch(url);
+        console.log(result);
 
-        if (!result.ok) {
+        if (result.status === 404) {
           setError('Síða ekki til');
         }
         json = await result.json();
@@ -36,7 +38,6 @@ export function News({ id, index }) {
   if (error) {
     return (
       <div>
-        <p>Villa kom upp: {error}</p>
         <NotFound></NotFound>
       </div>
     );
@@ -52,35 +53,18 @@ export function News({ id, index }) {
 
   if (news.length === 0) {
     return(
-      <p>Engin gögn</p>
-    );
-  }
-
-  if (index) {
-    return(
-      <div>
-        <h2>{news.title}</h2>
-        {
-          news.items.slice(0,5).map((article, key) => {
-            return(
-              <div key={key}>
-                <a href={article.link}>{article.title}</a>
-              </div>
-            );
-          })
-        }
-    </div>
+      <p>Gat ekki sótt gögn</p>
     );
   }
 
   return(
     <div>
-      <h2>{news.title}</h2>
+      <h3>{news.title}</h3>
       {
-        news.items.map((article, key) => {
+        news.items.slice(0,index).map((article, key) => {
           return(
-            <div key={key}>
-              <a href={article.link}>{article.title}</a>
+            <div key={key} className={s.margin}>
+              <a href={article.link} className={s.link}>{article.title}</a>
             </div>
           );
         })

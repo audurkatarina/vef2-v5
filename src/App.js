@@ -17,7 +17,7 @@ export default function App() {
           <Route component={NotFound} />
       </Switch>
       <hr/>
-      <p>Fréttir frá <a href='https://www.ruv.is/'>RÚV</a></p>
+      <p>Fréttir frá <a href='https://www.ruv.is/'>RÚV</a>.</p>
     </Layout>
   );
 }
