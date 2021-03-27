@@ -18,7 +18,6 @@ export function News({ id, index }) {
       const url = `${apiUrl}${id}`;
       try {
         const result = await fetch(url);
-        console.log(result);
 
         if (result.status === 404) {
           setError('Síða ekki til');
